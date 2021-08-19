@@ -1,7 +1,28 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { Paper } from '@material-ui/core';
+import { withStyles, createStyles } from "@material-ui/core/styles";
 
+const styles = theme => createStyles({
+    root: {
+        "& .theme-vaxxed-false": {
+            backgroundColor: '#9b0000',
+            color: 'white',
+            '&:hover': {
+                backgroundColor: '#d50000'
+            },
+        },
+        "& .theme-vaxxed-false.Mui-selected": {
+            backgroundColor: '#9b0000',
+            color: 'white',
+            '&:hover': {
+                backgroundColor: '#d50000'
+            },
+            textDecoration: 'line-through'
+        }
+        
+    },
+})
 
 class PlayerTable extends React.Component {
     columns = [
@@ -12,7 +33,7 @@ class PlayerTable extends React.Component {
         {field: 'high', headerName:"High", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'low', headerName:"Low", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'bye', headerName:"Bye", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
-        {field: 'service', headerName:"Service", flex: 0.75, headerAlign: 'left', align: 'left',},
+        {field: 'vaccination_status', headerName:"Vaccinated?", flex: 0.75, headerAlign: 'left', align: 'left',},
     ]
 
     constructor(props) {
@@ -23,9 +44,9 @@ class PlayerTable extends React.Component {
                 sort: 'asc'
             }],
         }
-
         this.onSortModelChange = this.setSortModel.bind(this);
     }
+
 
     setSortModel(model) {
         this.setState({
@@ -35,12 +56,12 @@ class PlayerTable extends React.Component {
 
     render() {
         return (
-            <Paper elevation={3}>
-                <DataGrid checkboxSelection align='left' style={{height: 700, width: '100%'}} columns={this.columns} rows={this.props.data.map((player, index) => ({...player, id: index}))} sortModel={this.state.sortModel} onSortModelChange={(model) => this.onSortModelChange(model)}/>
+            <Paper elevation={3} className={this.props.classes.root}>
+                <DataGrid checkboxSelection align='left' getRowClassName={(params) => `theme-vaxxed-${params.row.is_vaccinated}`} style={{height: 700, width: '100%'}} columns={this.columns} rows={this.props.data.map((player, index) => ({...player, id: index}))} sortModel={this.state.sortModel} onSortModelChange={(model) => this.onSortModelChange(model)}/>
             </Paper>
         )
     }
       
 }
 
-export default PlayerTable;
+export default withStyles(styles)(PlayerTable);

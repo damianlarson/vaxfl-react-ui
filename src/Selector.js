@@ -5,7 +5,8 @@ class Selector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: 'std'
+            selected: 'std',
+            style: this.props.style
         }
         this.handleEvent = this.handleEvent.bind(this);
     }
@@ -17,13 +18,16 @@ class Selector extends React.Component {
     }
     render() {
         return (
-            <div>
-                <InputLabel id="label">Scoring</InputLabel>
-                <Select native value={this.state.selected} onChange={this.handleEvent}>
+            <div style={this.state.style}>
+                <div>
+                <InputLabel style={{width:100}} id="label">Scoring</InputLabel>
+                <Select style={{width: 100}}native value={this.state.selected} onChange={this.handleEvent}>
                     <option value='std'>Standard</option>
                     <option value='half'>0.5 PPR</option>
                     <option value='full'>PPR</option>
                 </Select>
+                </div>
+
             </div>
         )
     }

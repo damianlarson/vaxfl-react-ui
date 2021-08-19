@@ -29,8 +29,8 @@ class MainPage extends React.Component {
         return (
             <div>
                 <Header />
-                <Selector handleEvent={this.updateData}/>
                 <div style={{width: '75%', margin: 'auto'}}>
+                    <Selector style={{display: 'flex', justifyContent:'flex-end', marginBottom: 16}} handleEvent={this.updateData}/>
                     <PlayerTable data={this.state.playerData}/>           
                 </div>
             </div>
