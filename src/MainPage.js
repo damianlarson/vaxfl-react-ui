@@ -1,9 +1,9 @@
 import React from 'react';
-import PlayerTable from './PlayerTable';
 import Header from './Header';
-import Selector from './Selector';
+import PlayersAvailable from './PlayersAvailable';
 import axios from 'axios';
 import './MainPage.css';
+import { FormLabel } from '@material-ui/core';
 
 const playerURI = process.env.PLAYER_URI || 'http://localhost:8080/players';
 
@@ -20,6 +20,7 @@ class MainPage extends React.Component {
     }
 
     updateData = async (scoring) => {
+        console.log(scoring);
         const newData =  (await axios.get(playerURI+`/adp/${scoring}`)).data;
         this.setState({
             playerData: newData
@@ -28,13 +29,12 @@ class MainPage extends React.Component {
     render() {
         return (
             <div>
-                <Header />
-                <div style={{width: '75%', margin: 'auto'}}>
-                    <Selector style={{display: 'flex', justifyContent:'flex-end', marginBottom: 16}} handleEvent={this.updateData}/>
-                    <PlayerTable data={this.state.playerData}/>           
-                </div>
+                    <Header />
+                    <PlayersAvailable playerData={this.state.playerData} handleEvent={this.updateData}/>
             </div>
-            
+
+                
+    
         )
     }
 }

@@ -1,0 +1,7 @@
+{
+    "appService.zipIgnorePattern": [
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/72dd26ac-9233-45f5-879a-680ef8ba9195/resourceGroups/VaxFLResourceGroup/providers/Microsoft.Web/sites/vaxfl",
+    "appService.deploySubpath": "."
+}

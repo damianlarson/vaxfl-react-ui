@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography } from '@material-ui/core';
 class Header extends React.Component {
     render() {
         return (
-            <AppBar style={{marginBottom: 32}} position='static'>
+            <AppBar position="sticky" style={{marginBottom: '32px'}}>
                 <Toolbar>
                     <Typography variant="h6">
                         VaxFL
