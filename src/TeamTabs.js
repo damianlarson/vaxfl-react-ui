@@ -15,7 +15,6 @@ class TeamTabs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tabs: this.props.tabs,
             value: '0'
         }
         this.setTabValue = this.setTabValue.bind(this);
@@ -31,8 +30,8 @@ class TeamTabs extends React.Component {
         return (
             <TabContext value={this.state.value}>
                 <Tabs value={this.state.value} onChange={this.setTabValue}>
-                    {this.props.tabs.map(tab => (
-                        <Tab label={tab.label} value={tab.value} key={tab.value} classes={{ root: this.props.classes.root }}/>
+                    {this.props.teams.map(team => (
+                        <Tab label={team.name} value={`${team.index}`} key={team.index} classes={{ root: this.props.classes.root }}/>
                     ))}
                 </Tabs>
                 {this.props.teams.map((team, index) => (

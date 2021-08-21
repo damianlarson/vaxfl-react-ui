@@ -13,7 +13,7 @@ class MainPage extends React.Component {
         super(props);
         const teams = [];
         for (let i = 0; i < 12; ++i) {
-            teams.push({players: []});
+            teams.push({index: i, players: [], name: `Team ${i+1}`});
         }
         this.state = {playerData: [], open: true, teams: teams};
         this.handleEvent = this.updateData.bind(this);
