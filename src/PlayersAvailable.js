@@ -49,6 +49,7 @@ class PlayersAvailable extends React.Component {
                         <PlayerTable 
                             data={this.props.playerData}
                             teams={this.props.teams} 
+                            draftPlayer={this.props.draftPlayer}
                         />           
                     </div>
                 </AccordionDetails>

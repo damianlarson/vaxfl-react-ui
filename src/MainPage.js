@@ -13,11 +13,12 @@ class MainPage extends React.Component {
         super(props);
         const teams = [];
         for (let i = 0; i < 12; ++i) {
-            teams.push({});
+            teams.push({players: []});
         }
         this.state = {playerData: [], open: true, teams: teams};
         this.handleEvent = this.updateData.bind(this);
         this.setTeamCount = this.setTeamCount.bind(this);
+        this.draftPlayer = this.draftPlayer.bind(this);
     }
 
     async componentDidMount() {
@@ -36,7 +37,7 @@ class MainPage extends React.Component {
         const teams = this.state.teams;
         if (count > this.state.teams.length) {
             for (let i = this.state.teams.length; i < count; ++i) {
-                teams.push({});
+                teams.push({players: []});
             }
         } else {
             teams.length = count;
@@ -46,6 +47,28 @@ class MainPage extends React.Component {
             teams: teams
         });
     }
+
+    draftPlayer(player, team) {
+        const name = player.name;
+        const teams = this.state.teams;
+        console.log(player);
+        const currentTeam = teams.find(team => team.players.findIndex(player => player.name === name) != -1);
+        if (currentTeam === undefined) {
+            const players = this.state.playerData;
+            players.find(player => player.name === name).drafted_by = team;
+            teams[team].players.push(player);
+            console.log(teams);
+            this.setState({
+                playerData: players,
+                teams: teams
+            });
+        } else {
+            currentTeam.players.filter(player => player.name !== name);
+            console.log(teams);
+        }
+
+    }
+
     render() {
         return (
             <div>
@@ -55,6 +78,7 @@ class MainPage extends React.Component {
                     handleEvent={this.updateData} 
                     style={{marginBottom: '32px'}}
                     teams={this.state.teams}
+                    draftPlayer={this.draftPlayer}
                 />
                 <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount}/>
             </div>

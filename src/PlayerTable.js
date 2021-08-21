@@ -58,7 +58,7 @@ class PlayerTable extends React.Component {
                     >
                         {this.props.teams.map((team, index) => {
                             if (index !== params.value) {
-                                return <MenuItem key={index} onClick={this.handleClose}>Draft to Team {index+1}</MenuItem>
+                                return <MenuItem key={index} onClick={(e) => this.handleClose(e, index)}>Draft to Team {index+1}</MenuItem>
                             } else return null
                         })}
                     </Menu>
@@ -70,7 +70,7 @@ class PlayerTable extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
+
         this.state = {
             sortModel: [{
                 field: 'adp',
@@ -81,12 +81,15 @@ class PlayerTable extends React.Component {
         this.onSortModelChange = this.setSortModel.bind(this);
         this.onButtonClick = this.onButtonClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.onSelectionModelChange = this.onSelectionModelChange.bind(this);
     }
 
-    handleClose(event) {
+    handleClose(event, index) {
+        console.log(index);
         console.log(event.currentTarget);
         this.setAnchorEl(null);
-        // this.props.draftPlayer()
+        console.log(this.props);
+        this.props.draftPlayer(this.state.selected, index);
     }
 
     setAnchorEl(event) {
@@ -112,6 +115,12 @@ class PlayerTable extends React.Component {
         });
     }
 
+    onSelectionModelChange(event) {
+        this.setState({
+            selected: this.props.data[event[0]]
+        })
+    }
+
     getDataToDisplay() {
         return this.props.data.map((player, index) => ({...player, id: index}));
     }
@@ -127,6 +136,7 @@ class PlayerTable extends React.Component {
                     rows={this.getDataToDisplay()} 
                     sortModel={this.state.sortModel} 
                     onSortModelChange={(model) => this.onSortModelChange(model)}
+                    onSelectionModelChange={this.onSelectionModelChange}
                 />
             </Paper>
         )
