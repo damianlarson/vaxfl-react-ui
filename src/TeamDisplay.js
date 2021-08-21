@@ -33,7 +33,6 @@ class TeamDisplay extends React.Component {
             tabs.length = value;
         }
         
-        console.log(tabs);
         this.setState({
             teamCount: value,
             tabs: tabs
