@@ -29,8 +29,9 @@ class MainPage extends React.Component {
     render() {
         return (
             <div>
-                    <Header />
-                    <PlayersAvailable playerData={this.state.playerData} handleEvent={this.updateData}/>
+                <Header />
+                <PlayersAvailable playerData={this.state.playerData} handleEvent={this.updateData}/>
+                <div style={{height: '2000px'}}>text</div>
             </div>
 
                 

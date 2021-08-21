@@ -1,6 +1,6 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { Paper, Button } from '@material-ui/core';
+import { Paper, Button, Menu, MenuItem } from '@material-ui/core';
 import { withStyles, createStyles } from "@material-ui/core/styles";
 
 const styles = theme => createStyles({
@@ -41,12 +41,27 @@ class PlayerTable extends React.Component {
         },
         {field: 'button', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
             renderCell: (params) => (
-                <Button
+                <div>
+<Button
                   variant="contained"
                   fullWidth={true}
+                  onClick={(button) => this.onButtonClick(button)}
                 >
                   SELECT
                 </Button>
+                <Menu
+                id="simple-menu"
+                anchorEl={this.state.anchorEl}
+                keepMounted
+                open={Boolean(this.state.anchorEl)}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              </Menu>
+                </div>
+                
             )
         },
     ]
@@ -58,10 +73,34 @@ class PlayerTable extends React.Component {
                 field: 'adp',
                 sort: 'asc'
             }],
+            anchorEl: null
         }
         this.onSortModelChange = this.setSortModel.bind(this);
+        this.onButtonClick = this.onButtonClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
+    handleClose() {
+        this.setAnchorEl(null);
+    }
+
+    setAnchorEl(event) {
+        if (event) {
+            this.setState({
+                anchorEl: event.currentTarget
+            });
+        } else {
+            this.setState({
+                anchorEl: null
+            })
+        }
+        
+    }
+
+    onButtonClick(button) {
+        console.log(button);
+        this.setAnchorEl(button);
+    }
 
     setSortModel(model) {
         this.setState({
