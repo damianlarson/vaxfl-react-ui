@@ -39,7 +39,7 @@ class PlayerTable extends React.Component {
             </strong>
           ),
         },
-        {field: 'button', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
+        {field: 'drafted_by', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
             renderCell: (params) => (
                 <div style={{width: '100%'}}>
                     <Button
@@ -56,9 +56,11 @@ class PlayerTable extends React.Component {
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.handleClose}
                     >
-                        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                        <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                        {this.props.teams.map((team, index) => {
+                            if (index !== params.value) {
+                                return <MenuItem key={index} onClick={this.handleClose}>Draft to Team {index+1}</MenuItem>
+                            } else return null
+                        })}
                     </Menu>
                 </div>
                 
@@ -68,6 +70,7 @@ class PlayerTable extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             sortModel: [{
                 field: 'adp',
@@ -80,8 +83,10 @@ class PlayerTable extends React.Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
-    handleClose() {
+    handleClose(event) {
+        console.log(event.currentTarget);
         this.setAnchorEl(null);
+        // this.props.draftPlayer()
     }
 
     setAnchorEl(event) {
@@ -98,7 +103,6 @@ class PlayerTable extends React.Component {
     }
 
     onButtonClick(button) {
-        console.log(button);
         this.setAnchorEl(button);
     }
 
@@ -115,7 +119,15 @@ class PlayerTable extends React.Component {
     render() {
         return (
             <Paper elevation={1} className={this.props.classes.root}>
-                <DataGrid align='left' getRowClassName={(params) => `theme-vaxxed-${params.row.is_vaccinated}`} style={{height: 700, width: '100%'}} columns={this.columns} rows={this.getDataToDisplay()} sortModel={this.state.sortModel} onSortModelChange={(model) => this.onSortModelChange(model)}/>
+                <DataGrid 
+                    align='left' 
+                    getRowClassName={(params) => `theme-vaxxed-${params.row.is_vaccinated}`} 
+                    style={{height: 700, width: '100%'}} 
+                    columns={this.columns} 
+                    rows={this.getDataToDisplay()} 
+                    sortModel={this.state.sortModel} 
+                    onSortModelChange={(model) => this.onSortModelChange(model)}
+                />
             </Paper>
         )
     }

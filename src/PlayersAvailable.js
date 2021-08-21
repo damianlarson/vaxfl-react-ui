@@ -46,7 +46,10 @@ class PlayersAvailable extends React.Component {
                         <div style={{display: 'flex', justifyContent:'flex-end', marginBottom: 16}}>
                             <Selector handleEvent={this.handleEvent} options={this.options} label='Scoring' defaultSelected='std'/>
                         </div>
-                        <PlayerTable data={this.props.playerData}/>           
+                        <PlayerTable 
+                            data={this.props.playerData}
+                            teams={this.props.teams} 
+                        />           
                     </div>
                 </AccordionDetails>
                     

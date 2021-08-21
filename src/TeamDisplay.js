@@ -15,10 +15,11 @@ class TeamDisplay extends React.Component {
         super(props);
         const tabs = [];
         for (let i = 0; i < 12; ++i) {
-            tabs.push({label: `team${i + 1}`, value: `${i}`});
+            tabs.push({label: `team${i + 1}`, value: `${i}`,});
         }
         this.state = {
-            tabs: tabs
+            tabs: tabs,
+            teams: this.props.teams
         };
         this.setTeamCount = this.setTeamCount.bind(this);
     }
@@ -27,16 +28,16 @@ class TeamDisplay extends React.Component {
         const tabs = this.state.tabs.map(a => Object.assign({}, a));
         if (value > tabs.length) {
             for (let i = tabs.length; i < value; ++i) {
-                tabs.push({label: `team${i + 1}`, value: `${i}`});
+                tabs.push({label: `team${i + 1}`, value: `${i}`, data: {}});
             }
         } else {
             tabs.length = value;
         }
         
         this.setState({
-            teamCount: value,
             tabs: tabs
         });
+        this.props.setTeamCount(value);
     }
     render() {
         return (
@@ -44,7 +45,7 @@ class TeamDisplay extends React.Component {
                 <div style={{display: 'flex', justifyContent:'flex-start', marginBottom: 16, marginLeft: 16}}>
                     <Selector handleEvent={this.setTeamCount} options={this.options} label={'Team Count'} defaultSelected="12"/>
                 </div>
-                <TeamTabs tabs={this.state.tabs}/>
+                <TeamTabs tabs={this.state.tabs} teams={this.state.teams}/>
             </div>
         )
     }
