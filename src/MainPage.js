@@ -37,9 +37,15 @@ class MainPage extends React.Component {
         const teams = this.state.teams;
         if (count > this.state.teams.length) {
             for (let i = this.state.teams.length; i < count; ++i) {
-                teams.push({players: []});
+                teams.push({index: i, players: [], name: `Team ${i+1}`});
             }
         } else {
+            for (let i = count; i < this.state.teams.length; i++) {
+                const team = this.state.teams[i];
+                team.players.map(player => {
+                    player.drafted_by = null;
+                });
+            }
             teams.length = count;
         }
         
