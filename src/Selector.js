@@ -23,7 +23,7 @@ class Selector extends React.Component {
                 <InputLabel id="label">{this.props.label}</InputLabel>
                 <Select style={{width: '100%'}} native value={this.state.selected} onChange={this.handleEvent}>
                     {this.props.options.map(option => (
-                        <option value={option.value}>{option.display}</option>
+                        <option value={option.value} key={option.value}>{option.display}</option>
 
                     ))}
                 </Select>

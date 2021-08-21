@@ -3,26 +3,30 @@ import { Tabs, Tab } from '@material-ui/core';
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import { TabPanel, TabContext } from '@material-ui/lab';
 
-const styles = theme => createStyles({
-    tab: {
-        backgroundColor: 'blue'
-    }
-})
+
 class TeamTabs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             tabs: this.props.tabs,
-            value: 0
+            value: '0'
         }
+        this.setTabValue = this.setTabValue.bind(this);
+    }
+
+    setTabValue(event, value) {
+        console.log(value);
+        this.setState({
+            value: value
+        });
     }
     render() {
         return (
             <TabContext value={this.state.value}>
-                <div classes={this.props.classes}>
-                    <Tabs inkBarStyle={{background: 'blue'}}>
+                <div>
+                    <Tabs value={this.state.value} onChange={this.setTabValue}>
                         {this.props.tabs.map(tab => (
-                            <Tab classes={this.props.classes.tab} label={tab.label} />
+                            <Tab label={tab.label} value={tab.value} key={tab.value}/>
                         ))}
                     </Tabs>
                 </div>
@@ -33,4 +37,4 @@ class TeamTabs extends React.Component {
         
     }
 }
-export default withStyles(styles)(TeamTabs);
+export default (TeamTabs);
