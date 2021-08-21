@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormLabel, Collapse, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+import { FormLabel, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import Selector from './Selector';
 import PlayerTable from './PlayerTable';
 import { withStyles, createStyles } from "@material-ui/core/styles";

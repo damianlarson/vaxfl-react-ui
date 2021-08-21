@@ -1,7 +1,6 @@
 import React from 'react';
 import { Tabs, Tab } from '@material-ui/core';
-import { withStyles, createStyles } from "@material-ui/core/styles";
-import { TabPanel, TabContext } from '@material-ui/lab';
+import { TabContext } from '@material-ui/lab';
 
 
 class TeamTabs extends React.Component {
