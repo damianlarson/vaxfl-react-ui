@@ -41,25 +41,25 @@ class PlayerTable extends React.Component {
         },
         {field: 'button', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
             renderCell: (params) => (
-                <div>
-<Button
-                  variant="contained"
-                  fullWidth={true}
-                  onClick={(button) => this.onButtonClick(button)}
-                >
-                  SELECT
-                </Button>
-                <Menu
-                id="simple-menu"
-                anchorEl={this.state.anchorEl}
-                keepMounted
-                open={Boolean(this.state.anchorEl)}
-                onClose={this.handleClose}
-              >
-                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-              </Menu>
+                <div style={{width: '100%'}}>
+                    <Button
+                        variant="contained"
+                        fullWidth={true}
+                        onClick={(button) => this.onButtonClick(button)}
+                    >
+                        SELECT
+                    </Button>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.state.anchorEl}
+                        keepMounted
+                        open={Boolean(this.state.anchorEl)}
+                        onClose={this.handleClose}
+                    >
+                        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                        <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                    </Menu>
                 </div>
                 
             )
@@ -114,7 +114,7 @@ class PlayerTable extends React.Component {
 
     render() {
         return (
-            <Paper elevation={3} className={this.props.classes.root}>
+            <Paper elevation={1} className={this.props.classes.root}>
                 <DataGrid align='left' getRowClassName={(params) => `theme-vaxxed-${params.row.is_vaccinated}`} style={{height: 700, width: '100%'}} columns={this.columns} rows={this.getDataToDisplay()} sortModel={this.state.sortModel} onSortModelChange={(model) => this.onSortModelChange(model)}/>
             </Paper>
         )

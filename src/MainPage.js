@@ -3,7 +3,7 @@ import Header from './Header';
 import PlayersAvailable from './PlayersAvailable';
 import axios from 'axios';
 import './MainPage.css';
-import { FormLabel } from '@material-ui/core';
+import { Accordion, Collapse, FormLabel } from '@material-ui/core';
 
 const playerURI = process.env.PLAYER_URI || 'http://localhost:8080/players';
 

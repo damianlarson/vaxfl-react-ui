@@ -1,14 +1,19 @@
 import React from 'react';
-import { FormLabel, Collapse } from '@material-ui/core';
+import { FormLabel, Collapse, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import Selector from './Selector';
 import PlayerTable from './PlayerTable';
 import { withStyles, createStyles } from "@material-ui/core/styles";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => createStyles({
     root: {
         position: 'sticky',
         top: '96px'
     },
+    collapse: {
+        display: 'flex',
+        flexDirection: 'row'
+    }
 })
 
 class PlayersAvailable extends React.Component {
@@ -32,18 +37,21 @@ class PlayersAvailable extends React.Component {
     render() {
         return (
             <div className={this.props.classes.root}>
-                <Collapse
-                in={this.state.isExpanded}
-                collapsedSize="350px"
-            >
-                <div style={{width: "90%", margin: "auto"}}>
-                    <div style={{display: 'flex', justifyContent:'space-between', marginBottom: 16}}>
-                        <FormLabel style={{marginTop: 'auto'}}>Players Available</FormLabel>
-                        <Selector handleEvent={this.handleEvent}/>
+                <Accordion defaultExpanded={true} TransitionProps={{collapsedSize: '300px'}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <FormLabel style={{marginTop: 'auto'}}>Players Available</FormLabel>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <div style={{width: "90%", margin: "auto"}}>
+                        <div style={{display: 'flex', justifyContent:'flex-end', marginBottom: 16}}>
+                            <Selector handleEvent={this.handleEvent}/>
+                        </div>
+                        <PlayerTable data={this.props.playerData}/>           
                     </div>
-                    <PlayerTable data={this.props.playerData}/>           
-                </div>  
-            </Collapse>
+                </AccordionDetails>
+                    
+                </Accordion>
+                
             </div>
             
             
