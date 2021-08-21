@@ -5,7 +5,7 @@ class Selector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: 'std',
+            selected: this.props.defaultSelected,
             style: this.props.style
         }
         this.handleEvent = this.handleEvent.bind(this);
@@ -19,12 +19,13 @@ class Selector extends React.Component {
     render() {
         return (
             <div style={this.state.style}>
-                <div>
-                <InputLabel style={{width:100}} id="label">Scoring</InputLabel>
-                <Select style={{width: 100}}native value={this.state.selected} onChange={this.handleEvent}>
-                    <option value='std'>Standard</option>
-                    <option value='half'>0.5 PPR</option>
-                    <option value='full'>PPR</option>
+                <div style={{width: '100%'}}>
+                <InputLabel id="label">{this.props.label}</InputLabel>
+                <Select style={{width: '100%'}} native value={this.state.selected} onChange={this.handleEvent}>
+                    {this.props.options.map(option => (
+                        <option value={option.value}>{option.display}</option>
+
+                    ))}
                 </Select>
                 </div>
 

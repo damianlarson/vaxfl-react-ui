@@ -6,10 +6,6 @@ import { withStyles, createStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => createStyles({
-    root: {
-        position: 'sticky',
-        top: '96px'
-    },
     collapse: {
         display: 'flex',
         flexDirection: 'row'
@@ -17,7 +13,11 @@ const styles = theme => createStyles({
 })
 
 class PlayersAvailable extends React.Component {
-
+    options = [
+        {value: 'std', display: 'Standard'},
+        {value: 'half', display: '0.5PPR'},
+        {value: 'full', display: 'PPR'}
+    ]
     constructor(props) {
         super(props);
 
@@ -36,7 +36,7 @@ class PlayersAvailable extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.root}>
+            <div style={this.props.style}>
                 <Accordion defaultExpanded={true} TransitionProps={{collapsedSize: '300px'}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <FormLabel style={{marginTop: 'auto'}}>Players Available</FormLabel>
@@ -44,7 +44,7 @@ class PlayersAvailable extends React.Component {
                 <AccordionDetails>
                     <div style={{width: "90%", margin: "auto"}}>
                         <div style={{display: 'flex', justifyContent:'flex-end', marginBottom: 16}}>
-                            <Selector handleEvent={this.handleEvent}/>
+                            <Selector handleEvent={this.handleEvent} options={this.options} label='Scoring' defaultSelected='std'/>
                         </div>
                         <PlayerTable data={this.props.playerData}/>           
                     </div>

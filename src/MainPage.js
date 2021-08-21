@@ -1,9 +1,9 @@
 import React from 'react';
 import Header from './Header';
 import PlayersAvailable from './PlayersAvailable';
+import TeamDisplay from './TeamDisplay';
 import axios from 'axios';
 import './MainPage.css';
-import { Accordion, Collapse, FormLabel } from '@material-ui/core';
 
 const playerURI = process.env.PLAYER_URI || 'http://localhost:8080/players';
 
@@ -11,7 +11,7 @@ class MainPage extends React.Component {
     
     constructor(props) {
         super(props);
-        this.state = {playerData: []};
+        this.state = {playerData: [], open: true};
         this.handleEvent = this.updateData.bind(this);
     }
 
@@ -30,8 +30,8 @@ class MainPage extends React.Component {
         return (
             <div>
                 <Header />
-                <PlayersAvailable playerData={this.state.playerData} handleEvent={this.updateData}/>
-                <div style={{height: '2000px'}}>text</div>
+                <PlayersAvailable playerData={this.state.playerData} handleEvent={this.updateData} style={{marginBottom: '32px'}}/>
+                <TeamDisplay />
             </div>
 
                 
