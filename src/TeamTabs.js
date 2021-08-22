@@ -40,8 +40,8 @@ class TeamTabs extends React.Component {
                         />
                     ))}
                 </Tabs>
-                {this.props.teams.map((team, index) => (
-                    <TabPanel key={index} value={`${index}`}>{team.players.map(player => (
+                {this.props.teams.map((team) => (
+                    <TabPanel key={team.index+'panel'} value={`${team.index}`}>{team.players.map(player => (
                         <div>{player.name}</div>
                     ))}</TabPanel>
                 ))}

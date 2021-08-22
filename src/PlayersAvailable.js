@@ -1,9 +1,7 @@
 import React from 'react';
-import { FormLabel, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import Selector from './Selector';
 import PlayerTable from './PlayerTable';
 import { withStyles, createStyles } from "@material-ui/core/styles";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => createStyles({
     collapse: {
