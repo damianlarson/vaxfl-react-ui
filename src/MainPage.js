@@ -55,14 +55,13 @@ class MainPage extends React.Component {
     }
 
     draftPlayer(player, team) {
-        const currentTeam = player.drafted_by;
         const playerName = player.name;
         const teams = this.state.teams;
         const players = this.state.playerData;
-
-        if (currentTeam === null) {
+        if (player.drafted_by === null) {
             players.find(player => player.name === playerName).drafted_by = team;
         } else {
+            const currentTeam = teams[player.drafted_by];
             currentTeam.players.filter(player => player.name !== playerName);
         }
 
