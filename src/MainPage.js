@@ -19,6 +19,7 @@ class MainPage extends React.Component {
         this.handleEvent = this.updateData.bind(this);
         this.setTeamCount = this.setTeamCount.bind(this);
         this.draftPlayer = this.draftPlayer.bind(this);
+        this.renameTeam = this.renameTeam.bind(this);
     }
 
     async componentDidMount() {
@@ -26,7 +27,6 @@ class MainPage extends React.Component {
     }
 
     updateData = async (scoring) => {
-        console.log(scoring);
         const newData =  (await axios.get(playerURI+`/adp/${scoring}`)).data;
         this.setState({
             playerData: newData.map(player => ({...player, drafted_by: null}))
@@ -72,6 +72,14 @@ class MainPage extends React.Component {
         });        
     }
 
+    renameTeam(teamIndex, teamName) {
+        const teams = this.state.teams;
+        teams[teamIndex].name = teamName;
+        this.setState({
+            teams: teams
+        });
+    }
+
     render() {
         return (
             <div>
@@ -83,7 +91,7 @@ class MainPage extends React.Component {
                     teams={this.state.teams}
                     draftPlayer={this.draftPlayer}
                 />
-                <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount}/>
+                <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount} renameTeam={this.renameTeam}/>
             </div>
 
                 

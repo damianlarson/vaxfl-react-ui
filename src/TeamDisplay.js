@@ -22,6 +22,7 @@ class TeamDisplay extends React.Component {
             teams: this.props.teams
         };
         this.setTeamCount = this.setTeamCount.bind(this);
+        this.renameTeam = this.renameTeam.bind(this);
     }
 
     setTeamCount(value) {
@@ -39,13 +40,16 @@ class TeamDisplay extends React.Component {
         });
         this.props.setTeamCount(value);
     }
+    renameTeam(teamIndex, teamName) {
+        this.props.renameTeam(teamIndex, teamName);
+    }
     render() {
         return (
             <div>
                 <div style={{display: 'flex', justifyContent:'flex-start', marginBottom: 16, marginLeft: 16}}>
                     <Selector handleEvent={this.setTeamCount} options={this.options} label={'Team Count'} defaultSelected="12"/>
                 </div>
-                <TeamTabs tabs={this.state.tabs} teams={this.state.teams}/>
+                <TeamTabs tabs={this.state.tabs} teams={this.state.teams} renameTeam={this.renameTeam}/>
             </div>
         )
     }

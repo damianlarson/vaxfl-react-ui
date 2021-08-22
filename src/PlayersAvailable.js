@@ -24,7 +24,6 @@ class PlayersAvailable extends React.Component {
     }
 
     handleEvent = (scoring) => {
-        console.log(scoring);
         this.setState({
             isExpanded: !this.state.isExpanded
         })
