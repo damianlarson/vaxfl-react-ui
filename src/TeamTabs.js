@@ -7,7 +7,9 @@ const styles = (theme) => createStyles({
     root: {
         flex: 1,
         minWidth: '1px',
-        maxWidth: '100%'
+        maxWidth: '100%',
+        backgroundColor: '#0D47A1',
+        color: 'white'
     }
 })
 
@@ -31,7 +33,11 @@ class TeamTabs extends React.Component {
             <TabContext value={this.state.value}>
                 <Tabs value={this.state.value} onChange={this.setTabValue}>
                     {this.props.teams.map(team => (
-                        <Tab label={team.name} value={`${team.index}`} key={team.index} classes={{ root: this.props.classes.root }}/>
+                        <Tab 
+                            label={team.name} value={`${team.index}`} 
+                            key={team.index} 
+                            classes={{ root: this.props.classes.root }}                            
+                        />
                     ))}
                 </Tabs>
                 {this.props.teams.map((team, index) => (

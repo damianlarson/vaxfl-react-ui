@@ -37,12 +37,7 @@ class PlayersAvailable extends React.Component {
     render() {
         return (
             <div style={this.props.style}>
-                <Accordion defaultExpanded={true} TransitionProps={{collapsedSize: '300px'}}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <FormLabel style={{marginTop: 'auto'}}>Players Available</FormLabel>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <div style={{width: "90%", margin: "auto"}}>
+                <div style={{width: "90%", margin: "auto"}}>
                         <div style={{display: 'flex', justifyContent:'flex-end', marginBottom: 16}}>
                             <Selector handleEvent={this.handleEvent} options={this.options} label='Scoring' defaultSelected='std'/>
                         </div>
@@ -52,10 +47,6 @@ class PlayersAvailable extends React.Component {
                             draftPlayer={this.props.draftPlayer}
                         />           
                     </div>
-                </AccordionDetails>
-                    
-                </Accordion>
-                
             </div>
             
             

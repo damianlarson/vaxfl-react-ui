@@ -55,6 +55,7 @@ class PlayerTable extends React.Component {
                         keepMounted
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.handleClose}
+                        style={{maxHeight: '300px'}}
                     >
                         {this.props.teams.map((team, index) => {
                             if (index !== params.value) {
@@ -85,10 +86,7 @@ class PlayerTable extends React.Component {
     }
 
     handleClose(event, index) {
-        console.log(index);
-        console.log(event.currentTarget);
         this.setAnchorEl(null);
-        console.log(this.props);
         this.props.draftPlayer(this.state.selected, index);
     }
 
@@ -131,7 +129,7 @@ class PlayerTable extends React.Component {
                 <DataGrid 
                     align='left' 
                     getRowClassName={(params) => `theme-vaxxed-${params.row.is_vaccinated}`} 
-                    style={{height: 700, width: '100%'}} 
+                    style={{height: 500, width: '100%'}} 
                     columns={this.columns} 
                     rows={this.getDataToDisplay()} 
                     sortModel={this.state.sortModel} 
