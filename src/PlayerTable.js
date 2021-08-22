@@ -25,13 +25,6 @@ const styles = theme => createStyles({
 
 class PlayerTable extends React.Component {
     columns = [
-        {field: 'name', headerName:"Player Name", flex: 1, headerAlign: 'left', align: 'left',},
-        {field: 'player_position', headerName:"Position", flex: 0.75, headerAlign: 'left', align: 'left',},
-        {field: 'team', headerName:"Team", flex: 0.75, headerAlign: 'left', align: 'left',},
-        {field: 'adp', headerName:"ADP", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
-        {field: 'high', headerName:"High", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
-        {field: 'low', headerName:"Low", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
-        {field: 'bye', headerName:"Bye", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'vaccination_status', headerName:"Vaccinated?", flex: 0.75, headerAlign: 'left', align: 'left',
         renderCell: (params) => (
             <strong>
@@ -39,7 +32,7 @@ class PlayerTable extends React.Component {
             </strong>
           ),
         },
-        {field: 'drafted_by', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
+        {field: 'select', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
             renderCell: (params) => (
                 <div style={{width: '100%'}}>
                     <Button
@@ -73,16 +66,16 @@ class PlayerTable extends React.Component {
         super(props);
 
         this.state = {
-            sortModel: [{
-                field: 'adp',
-                sort: 'asc'
-            }],
+            sortModel: this.props.sortModel,
             anchorEl: null
         }
         this.onSortModelChange = this.setSortModel.bind(this);
         this.onButtonClick = this.onButtonClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.onSelectionModelChange = this.onSelectionModelChange.bind(this);
+        this.props.columns.forEach((column, index) => {
+            this.columns.splice(this.props.indexToAddColumn + index, 0, column);
+        });
     }
 
     handleClose(event, index) {

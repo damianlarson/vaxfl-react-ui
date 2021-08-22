@@ -1,4 +1,5 @@
 import React from 'react';
+import PlayerTable from './PlayerTable';
 import { Tabs, Tab, Button, Input } from '@material-ui/core';
 import { TabContext, TabPanel } from '@material-ui/lab';
 import { withStyles, createStyles } from '@material-ui/styles';
@@ -14,6 +15,14 @@ const styles = (theme) => createStyles({
 })
 
 class TeamTabs extends React.Component {
+    columns = [
+        {field: 'name', headerName:"Player Name", flex: 1, headerAlign: 'left', align: 'left',},
+        {field: 'player_position', headerName:"Position", flex: 0.75, headerAlign: 'left', align: 'left',},
+        {field: 'team', headerName:"Team", flex: 0.75, headerAlign: 'left', align: 'left',},
+        {field: 'drafted', headerName:"Draft Position", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
+        {field: 'bye', headerName:"Bye", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
+    ]
+
     constructor(props) {
         super(props);
         this.state = {
@@ -78,9 +87,13 @@ class TeamTabs extends React.Component {
                                     <Button variant="contained" color="primary" onClick={this.renameTeam}>Submit</Button>
                                 </form> : null}
                         </div>
-                        {team.players.map(player => (
-                            <div>{player.name}</div>
-                        ))}
+                        <PlayerTable 
+                            data={team.players}
+                            teams={this.props.teams}
+                            columns={this.columns}
+                            indexToAddColumn={0}
+                            sortModel={[{'field': 'drafted', 'sort': 'asc'}]}
+                        />
                     </TabPanel>
                 ))}
             </TabContext>

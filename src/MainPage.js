@@ -1,11 +1,37 @@
 import React from 'react';
 import Header from './Header';
+import clsx from 'clsx';
 import PlayersAvailable from './PlayersAvailable';
 import TeamDisplay from './TeamDisplay';
 import axios from 'axios';
 import './MainPage.css';
+import DraftOrderDrawer from './DraftOrderDrawer';
+import { withStyles, createStyles } from "@material-ui/core/styles";
 
 const playerURI = process.env.PLAYER_URI || 'http://localhost:8080/players';
+const drawerWidth = 240;
+
+const styles = theme => createStyles({
+    appDefault: {
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: '100%',
+        marginRight: `-${drawerWidth}px`
+    },
+    appWithDrawerOpen: {
+        width: `calc(100% - ${drawerWidth}px)`, 
+        flexGrow: 1,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    drawerWhenOpen: {width: `${drawerWidth}px`, flexShrink: 1},
+    drawerWhenClosed: {width: 0}
+    
+});
 
 class MainPage extends React.Component {
     
@@ -15,11 +41,12 @@ class MainPage extends React.Component {
         for (let i = 0; i < 12; ++i) {
             teams.push({index: i, players: [], name: `Team ${i+1}`});
         }
-        this.state = {playerData: [], open: true, teams: teams};
+        this.state = {playerData: [], isDrawerOpen: true, teams: teams, playerDraftIndex: 1};
         this.handleEvent = this.updateData.bind(this);
         this.setTeamCount = this.setTeamCount.bind(this);
         this.draftPlayer = this.draftPlayer.bind(this);
         this.renameTeam = this.renameTeam.bind(this);
+        this.toggleDrawerOpen = this.toggleDrawerOpen.bind(this);
     }
 
     async componentDidMount() {
@@ -40,13 +67,13 @@ class MainPage extends React.Component {
 
     setTeamCount(count) {
         const teams = this.state.teams;
-        if (count > this.state.teams.length) {
-            for (let i = this.state.teams.length; i < count; ++i) {
+        if (count > teams.length) {
+            for (let i = teams.length; i < count; ++i) {
                 teams.push({index: i, players: [], name: `Team ${i+1}`});
             }
         } else {
-            for (let i = count; i < this.state.teams.length; i++) {
-                const team = this.state.teams[i];
+            for (let i = count; i < teams.length; i++) {
+                const team = teams[i];
                 team.players.forEach(player => {
                     player.drafted_by = null;
                 });
@@ -60,21 +87,20 @@ class MainPage extends React.Component {
     }
 
     draftPlayer(player, team) {
-        const playerName = player.name;
         const teams = this.state.teams;
-        const players = this.state.playerData;
-        if (player.drafted_by === null) {
-            players.find(player => player.name === playerName).drafted_by = team;
-        } else {
-            const currentTeam = teams[player.drafted_by];
-            currentTeam.players.filter(player => player.name !== playerName);
+        let draftIndex = this.state.playerDraftIndex;
+
+        player.drafted_by = team;
+
+        if (player.drafted === undefined) {
+            player.drafted = draftIndex++;
         }
 
         teams[team].players.push(player);
         this.setState({
-            playerData: players,
-            teams: teams
-        });        
+            teams: teams,
+            playerDraftIndex: draftIndex
+        });
     }
 
     renameTeam(teamIndex, teamName) {
@@ -85,24 +111,32 @@ class MainPage extends React.Component {
         });
     }
 
+    toggleDrawerOpen() {
+        this.setState({
+            isDrawerOpen: !this.state.isDrawerOpen
+        });
+    }
     render() {
         return (
-            <div>
-                <Header />
-                <PlayersAvailable 
-                    playerData={this.state.playerData.filter(player => player.drafted_by === null)} 
-                    handleEvent={this.updateData} 
-                    style={{marginBottom: '32px'}}
-                    teams={this.state.teams}
-                    draftPlayer={this.draftPlayer}
-                />
-                <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount} renameTeam={this.renameTeam}/>
-            </div>
-
-                
-    
+                <div style={{display: 'flex'}}>
+                    <div className={clsx(this.props.classes.appWithDrawerOpen, {[this.props.classes.appDefault]: !this.state.isDrawerOpen})}>
+                        <Header open={this.state.isDrawerOpen} toggleDrawerOpen={this.toggleDrawerOpen}/>
+                        <PlayersAvailable 
+                            playerData={this.state.playerData.filter(player => player.drafted_by === null)} 
+                            handleEvent={this.updateData} 
+                            style={{marginBottom: '32px'}}
+                            teams={this.state.teams}
+                            draftPlayer={this.draftPlayer}
+                        />
+                        <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount} renameTeam={this.renameTeam}/>
+                    </div>
+                    
+                    <div>
+                        <DraftOrderDrawer width={drawerWidth} isDrawerOpen={this.state.isDrawerOpen} toggleDrawerOpen={this.toggleDrawerOpen}/>
+                    </div>
+                </div>
         )
     }
 }
 
-export default MainPage;
+export default withStyles(styles)(MainPage);
