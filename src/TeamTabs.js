@@ -27,17 +27,14 @@ class TeamTabs extends React.Component {
     }
 
     setTabValue(event, value) {
-        this.setState({
-            value: value,
-            setTeamName: false
-        });
+        this.props.setTabValue(value);
     }
 
     openRenameTeam(button) {
         this.setState({
             setTeamName: true,
             teamNameValue: this.props.teams[this.state.value].name
-        })
+        });
     }
 
     handleInput(event) {
@@ -55,8 +52,8 @@ class TeamTabs extends React.Component {
     }
     render() {
         return (
-            <TabContext value={this.state.value}>
-                <Tabs value={this.state.value} onChange={this.setTabValue}>
+            <TabContext value={this.props.value}>
+                <Tabs value={this.props.value} onChange={this.setTabValue}>
                     {this.props.teams.map(team => (
                         <Tab 
                             label={team.name} value={`${team.index}`} 

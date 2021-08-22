@@ -19,29 +19,40 @@ class TeamDisplay extends React.Component {
         }
         this.state = {
             tabs: tabs,
-            teams: this.props.teams
+            teams: this.props.teams,
+            tabValue: '0'
         };
         this.setTeamCount = this.setTeamCount.bind(this);
         this.renameTeam = this.renameTeam.bind(this);
+        this.setTabValue = this.setTabValue.bind(this);
     }
 
     setTeamCount(value) {
         const tabs = this.state.tabs.map(a => Object.assign({}, a));
+        let tabValue = this.state.tabValue;
         if (value > tabs.length) {
             for (let i = tabs.length; i < value; ++i) {
                 tabs.push({label: `team${i + 1}`, value: `${i}`, data: {}});
             }
         } else {
             tabs.length = value;
+            tabValue = tabs.length - 1;
         }
         
         this.setState({
-            tabs: tabs
+            tabs: tabs,
+            tabValue: `${tabValue}`
         });
         this.props.setTeamCount(value);
     }
     renameTeam(teamIndex, teamName) {
         this.props.renameTeam(teamIndex, teamName);
+    }
+
+    setTabValue(tab) {
+        this.setState({
+            tabValue: tab
+        });
     }
     render() {
         return (
@@ -49,7 +60,13 @@ class TeamDisplay extends React.Component {
                 <div style={{display: 'flex', justifyContent:'flex-start', marginBottom: 16, marginLeft: 16}}>
                     <Selector handleEvent={this.setTeamCount} options={this.options} label={'Team Count'} defaultSelected="12"/>
                 </div>
-                <TeamTabs tabs={this.state.tabs} teams={this.state.teams} renameTeam={this.renameTeam}/>
+                <TeamTabs 
+                    tabs={this.state.tabs} 
+                    teams={this.state.teams} 
+                    renameTeam={this.renameTeam} 
+                    value={this.state.tabValue}
+                    setTabValue={this.setTabValue}
+                />
             </div>
         )
     }
