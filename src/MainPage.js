@@ -8,7 +8,7 @@ import './MainPage.css';
 import DraftOrderDrawer from './DraftOrderDrawer';
 import { withStyles, createStyles } from "@material-ui/core/styles";
 
-const playerURI = process.env.PLAYER_URI || 'http://localhost:8080/players';
+const playerURI = process.env.REACT_APP_PLAYER_URI || 'http://localhost:8080/players';
 const drawerWidth = 480;
 
 const styles = theme => createStyles({
