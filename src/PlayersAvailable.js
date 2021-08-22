@@ -56,6 +56,7 @@ class PlayersAvailable extends React.Component {
                             columns={this.columns}
                             indexToAddColumn={0}
                             sortModel={[{'field': 'adp', 'sort': 'asc'}]}
+                            onMenuOpen={this.props.onMenuOpen}
                         />           
                     </div>
             </div>

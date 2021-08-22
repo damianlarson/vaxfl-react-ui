@@ -9,7 +9,7 @@ import DraftOrderDrawer from './DraftOrderDrawer';
 import { withStyles, createStyles } from "@material-ui/core/styles";
 
 const playerURI = process.env.PLAYER_URI || 'http://localhost:8080/players';
-const drawerWidth = 240;
+const drawerWidth = 480;
 
 const styles = theme => createStyles({
     appDefault: {
@@ -28,6 +28,9 @@ const styles = theme => createStyles({
             duration: theme.transitions.duration.leavingScreen,
         }),
     },
+    appWithDrawerAndMenuOpen: {
+        marginRight: '-12px'
+    },
     drawerWhenOpen: {width: `${drawerWidth}px`, flexShrink: 1},
     drawerWhenClosed: {width: 0}
     
@@ -41,12 +44,19 @@ class MainPage extends React.Component {
         for (let i = 0; i < 12; ++i) {
             teams.push({index: i, players: [], name: `Team ${i+1}`});
         }
-        this.state = {playerData: [], isDrawerOpen: true, teams: teams, playerDraftIndex: 1};
+        this.state = {
+            playerData: [], 
+            isDrawerOpen: true, 
+            teams: teams, 
+            draftedPlayers: [],
+            isMenuOpen: false,
+        };
         this.handleEvent = this.updateData.bind(this);
         this.setTeamCount = this.setTeamCount.bind(this);
         this.draftPlayer = this.draftPlayer.bind(this);
         this.renameTeam = this.renameTeam.bind(this);
         this.toggleDrawerOpen = this.toggleDrawerOpen.bind(this);
+        this.onMenuOpen = this.onMenuOpen.bind(this);
     }
 
     async componentDidMount() {
@@ -88,12 +98,20 @@ class MainPage extends React.Component {
 
     draftPlayer(player, team) {
         const teams = this.state.teams;
-        let draftIndex = this.state.playerDraftIndex;
-
+        let draftedPlayers = this.state.draftedPlayers;
+        let draftIndex = draftedPlayers.length + 1;
+        
+        if (player.drafted_by !== null) {
+            teams[player.drafted_by].players = teams[player.drafted_by].players.filter(existingPlayer => existingPlayer.name !== player.name);
+            console.log(teams[player.drafted_by]);
+        }
         player.drafted_by = team;
-
-        if (player.drafted === undefined) {
-            player.drafted = draftIndex++;
+        
+        if (player.draft_position === undefined) {
+            player.draft_position = draftIndex;
+            player.draft_position_formatted = this.getFormattedDraft(draftIndex, teams);
+            player.drafted_by_formatted = teams[team].name;
+            draftedPlayers.push(player);
         }
 
         teams[team].players.push(player);
@@ -101,6 +119,17 @@ class MainPage extends React.Component {
             teams: teams,
             playerDraftIndex: draftIndex
         });
+    }
+
+    getFormattedDraft(draftIndex, teams) {
+        console.log(draftIndex);
+        console.log(teams.length);
+        let pick = draftIndex % teams.length || teams.length;
+        let round = parseInt(draftIndex / teams.length);
+        if (pick !== teams.length) {
+            round++;
+        }
+        return `${round}.${pick}`
     }
 
     renameTeam(teamIndex, teamName) {
@@ -116,10 +145,19 @@ class MainPage extends React.Component {
             isDrawerOpen: !this.state.isDrawerOpen
         });
     }
+
+    onMenuOpen() {
+        if (!this.state.isMenuOpen) {
+            this.setState({
+                isMenuOpen: true
+            });
+        }
+
+    }
     render() {
         return (
                 <div style={{display: 'flex'}}>
-                    <div className={clsx(this.props.classes.appWithDrawerOpen, {[this.props.classes.appDefault]: !this.state.isDrawerOpen})}>
+                    <div className={clsx(this.props.classes.appWithDrawerOpen, {[this.props.classes.appWithDrawerAndMenuOpen] : this.state.isMenuOpen && this.state.isDrawerOpen}, {[this.props.classes.appDefault]: !this.state.isDrawerOpen})}>
                         <Header open={this.state.isDrawerOpen} toggleDrawerOpen={this.toggleDrawerOpen}/>
                         <PlayersAvailable 
                             playerData={this.state.playerData.filter(player => player.drafted_by === null)} 
@@ -127,12 +165,19 @@ class MainPage extends React.Component {
                             style={{marginBottom: '32px'}}
                             teams={this.state.teams}
                             draftPlayer={this.draftPlayer}
+                            onMenuOpen={this.onMenuOpen}
                         />
-                        <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount} renameTeam={this.renameTeam}/>
+                        <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount} renameTeam={this.renameTeam} onMenuOpen={this.onMenuOpen} draftPlayer={this.draftPlayer}/>
                     </div>
                     
                     <div>
-                        <DraftOrderDrawer width={drawerWidth} isDrawerOpen={this.state.isDrawerOpen} toggleDrawerOpen={this.toggleDrawerOpen}/>
+                        <DraftOrderDrawer 
+                            width={drawerWidth} 
+                            isDrawerOpen={this.state.isDrawerOpen}
+                            isMenuOpen={this.state.isMenuOpen}
+                            toggleDrawerOpen={this.toggleDrawerOpen}
+                            draftedPlayers={this.state.draftedPlayers}
+                        />
                     </div>
                 </div>
         )

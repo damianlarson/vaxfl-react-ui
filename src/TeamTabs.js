@@ -19,7 +19,13 @@ class TeamTabs extends React.Component {
         {field: 'name', headerName:"Player Name", flex: 1, headerAlign: 'left', align: 'left',},
         {field: 'player_position', headerName:"Position", flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'team', headerName:"Team", flex: 0.75, headerAlign: 'left', align: 'left',},
-        {field: 'drafted', headerName:"Draft Position", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
+        {field: 'draft_position_formatted', headerName:"Draft Position", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left', sortComparator: (v1, v2, param1, param2) => {
+            if (parseInt(v1) !== parseInt(v2)) {
+                return parseInt(v1) - parseInt(v2)
+            }  else {
+                return parseInt(v1.split('.')[1] - v2.split('.')[1]);
+            }
+        }},
         {field: 'bye', headerName:"Bye", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
     ]
 
@@ -92,7 +98,9 @@ class TeamTabs extends React.Component {
                             teams={this.props.teams}
                             columns={this.columns}
                             indexToAddColumn={0}
-                            sortModel={[{'field': 'drafted', 'sort': 'asc'}]}
+                            sortModel={[{'field': 'draft_position_formatted', 'sort': 'asc'}]}
+                            onMenuOpen={this.props.onMenuOpen}
+                            draftPlayer={this.props.draftPlayer}
                         />
                     </TabPanel>
                 ))}

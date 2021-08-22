@@ -66,6 +66,8 @@ class TeamDisplay extends React.Component {
                     renameTeam={this.renameTeam} 
                     value={this.state.tabValue}
                     setTabValue={this.setTabValue}
+                    onMenuOpen={this.props.onMenuOpen}
+                    draftPlayer={this.props.draftPlayer}
                 />
             </div>
         )

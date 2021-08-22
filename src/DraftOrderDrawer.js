@@ -2,6 +2,7 @@ import React from 'react';
 import {Drawer, IconButton, Typography} from '@material-ui/core';
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import DraftDisplay from './DraftDisplay';
 const styles = theme => createStyles({
     drawer: {
         width: props => props.width,
@@ -20,6 +21,7 @@ const styles = theme => createStyles({
         display: 'flex',
         flexDirection: 'row',
         height: '64px',
+        minHeight: '64px',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)'
     }
 })
@@ -40,6 +42,7 @@ class DraftOrderDrawer extends React.Component {
                     </IconButton>
                     <Typography style={{margin: 'auto 0'}}>Players Drafted</Typography>            
                 </div>
+                <DraftDisplay draftedPlayers={this.props.draftedPlayers}/>
             </Drawer>
         )
         

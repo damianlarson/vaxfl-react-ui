@@ -32,7 +32,7 @@ class PlayerTable extends React.Component {
             </strong>
           ),
         },
-        {field: 'select', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
+        {field: 'drafted_by', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
             renderCell: (params) => (
                 <div style={{width: '100%'}}>
                     <Button
@@ -49,6 +49,7 @@ class PlayerTable extends React.Component {
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.handleClose}
                         style={{maxHeight: '300px'}}
+                        TransitionProps={{onEnter: () => {this.props.onMenuOpen()}}}
                     >
                         {this.props.teams.map((team, index) => {
                             if (index !== params.value) {
