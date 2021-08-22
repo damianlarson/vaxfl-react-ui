@@ -87,7 +87,10 @@ class PlayerTable extends React.Component {
 
     handleClose(event, index) {
         this.setAnchorEl(null);
-        this.props.draftPlayer(this.state.selected, index);
+        console.log(event);
+        if (event.target.value !== undefined) {
+            this.props.draftPlayer(this.state.selected, index);
+        }
     }
 
     setAnchorEl(event) {
