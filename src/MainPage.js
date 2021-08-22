@@ -28,8 +28,13 @@ class MainPage extends React.Component {
 
     updateData = async (scoring) => {
         const newData =  (await axios.get(playerURI+`/adp/${scoring}`)).data;
+        const teams = this.state.teams;
+        teams.forEach(team => {
+            team.players.length = 0;
+        });
         this.setState({
-            playerData: newData.map(player => ({...player, drafted_by: null}))
+            playerData: newData.map(player => ({...player, drafted_by: null})),
+            teams: teams
         });
     }
 
