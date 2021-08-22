@@ -42,7 +42,7 @@ class MainPage extends React.Component {
         } else {
             for (let i = count; i < this.state.teams.length; i++) {
                 const team = this.state.teams[i];
-                team.players.map(player => {
+                team.players.forEach(player => {
                     player.drafted_by = null;
                 });
             }
@@ -55,24 +55,22 @@ class MainPage extends React.Component {
     }
 
     draftPlayer(player, team) {
-        const name = player.name;
+        const currentTeam = player.drafted_by;
+        const playerName = player.name;
         const teams = this.state.teams;
-        console.log(player);
-        const currentTeam = teams.find(team => team.players.findIndex(player => player.name === name) != -1);
-        if (currentTeam === undefined) {
-            const players = this.state.playerData;
-            players.find(player => player.name === name).drafted_by = team;
-            teams[team].players.push(player);
-            console.log(teams);
-            this.setState({
-                playerData: players,
-                teams: teams
-            });
+        const players = this.state.playerData;
+
+        if (currentTeam === null) {
+            players.find(player => player.name === playerName).drafted_by = team;
         } else {
-            currentTeam.players.filter(player => player.name !== name);
-            console.log(teams);
+            currentTeam.players.filter(player => player.name !== playerName);
         }
 
+        teams[team].players.push(player);
+        this.setState({
+            playerData: players,
+            teams: teams
+        });        
     }
 
     render() {
