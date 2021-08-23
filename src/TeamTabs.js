@@ -32,7 +32,6 @@ class TeamTabs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '0',
             setTeamName: false
         }
         this.setTabValue = this.setTabValue.bind(this);
@@ -43,12 +42,15 @@ class TeamTabs extends React.Component {
 
     setTabValue(event, value) {
         this.props.setTabValue(value);
+        this.setState({
+            teamNameValue: this.props.teams[value].name
+        });
     }
 
     openRenameTeam(button) {
         this.setState({
             setTeamName: true,
-            teamNameValue: this.props.teams[this.state.value].name
+            teamNameValue: this.props.teams[this.props.value].name
         });
     }
 
@@ -59,10 +61,9 @@ class TeamTabs extends React.Component {
     }
     
     renameTeam() {
-        this.props.renameTeam(this.state.value, this.state.teamNameValue);
+        this.props.renameTeam(this.props.value, this.state.teamNameValue);
         this.setState({
             setTeamName: false,
-            teamNameValue: null
         });
     }
     render() {
@@ -89,7 +90,7 @@ class TeamTabs extends React.Component {
                             </Button>
                             {this.state.setTeamName ? 
                                 <form >
-                                    <Input defaultValue={team.name} style={{marginRight: '16px'}} onChange={this.handleInput}></Input>
+                                    <Input value={this.state.teamNameValue} style={{marginRight: '16px'}} onChange={this.handleInput}></Input>
                                     <Button variant="contained" color="primary" onClick={this.renameTeam}>Submit</Button>
                                 </form> : null}
                         </div>
