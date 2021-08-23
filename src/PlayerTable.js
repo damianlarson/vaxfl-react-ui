@@ -25,13 +25,6 @@ const styles = theme => createStyles({
 
 class PlayerTable extends React.Component {
     columns = [
-        {field: 'vaccination_status', headerName:"Vaccinated?", flex: 0.75, headerAlign: 'left', align: 'left',
-        renderCell: (params) => (
-            <strong>
-              {(params.value)}
-            </strong>
-          ),
-        },
         {field: 'drafted_by', headerName: 'Option', flex: 0.75, headerAlign: 'left', align: 'center',
             renderCell: (params) => (
                 <div style={{width: '100%'}}>

@@ -19,9 +19,6 @@ class DraftDisplay extends React.Component {
         {field: 'draft_position_formatted', headerName:"Draft Position", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'drafted_by_formatted', headerName:"Drafted By", flex: 1, headerAlign: 'left', align: 'left',},
     ]
-    getDataToDisplay() {
-        return this.props.draftedPlayers.map((player, index) => ({...player, id: index}));
-    }
 
     render() {
         return (
@@ -30,15 +27,15 @@ class DraftDisplay extends React.Component {
                     <TableHead>
                         <TableRow>
                             {this.columns.map(column => (
-                                <TableCell>{column.headerName}</TableCell>
+                                <TableCell key={column.headerName}>{column.headerName}</TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {this.props.draftedPlayers.map(player => (
-                            <TableRow className={clsx({[this.props.classes.notVaxxed]: !player.is_vaccinated })}>
+                            <TableRow key={player.name} className={clsx({[this.props.classes.notVaxxed]: !player.is_vaccinated })}>
                                 {this.columns.map(column => (
-                                    <TableCell>{player[column.field]}</TableCell>
+                                    <TableCell key={player.name+player[column.field]}>{player[column.field]}</TableCell>
                                 ))}
                             </TableRow>
                         ))}

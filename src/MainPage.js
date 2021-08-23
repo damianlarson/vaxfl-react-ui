@@ -9,7 +9,7 @@ import DraftOrderDrawer from './DraftOrderDrawer';
 import { withStyles, createStyles } from "@material-ui/core/styles";
 
 const playerURI = process.env.REACT_APP_PLAYER_URI || 'http://localhost:8080/players';
-const drawerWidth = 480;
+const drawerWidth = '25vw';
 
 const styles = theme => createStyles({
     appDefault: {
@@ -18,10 +18,10 @@ const styles = theme => createStyles({
             duration: theme.transitions.duration.leavingScreen,
         }),
         width: '100%',
-        marginRight: `-${drawerWidth}px`
+        marginRight: `-${drawerWidth}`
     },
     appWithDrawerOpen: {
-        width: `calc(100% - ${drawerWidth}px)`, 
+        width: `calc(100% - ${drawerWidth})`, 
         flexGrow: 1,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
@@ -31,7 +31,7 @@ const styles = theme => createStyles({
     appWithDrawerAndMenuOpen: {
         marginRight: '-12px'
     },
-    drawerWhenOpen: {width: `${drawerWidth}px`, flexShrink: 1},
+    drawerWhenOpen: {width: `${drawerWidth}`, flexShrink: 1},
     drawerWhenClosed: {width: 0}
     
 });
@@ -48,7 +48,7 @@ class MainPage extends React.Component {
             playerData: [], 
             isDrawerOpen: true, 
             teams: teams, 
-            draftedPlayers: [],
+            draftIndex: 1,
             isMenuOpen: false,
         };
         this.handleEvent = this.updateData.bind(this);
@@ -98,32 +98,29 @@ class MainPage extends React.Component {
 
     draftPlayer(player, team) {
         const teams = this.state.teams;
-        let draftedPlayers = this.state.draftedPlayers;
-        let draftIndex = draftedPlayers.length + 1;
-        
+        let draftIndex = this.state.draftIndex;
+
         if (player.drafted_by !== null) {
             teams[player.drafted_by].players = teams[player.drafted_by].players.filter(existingPlayer => existingPlayer.name !== player.name);
-            console.log(teams[player.drafted_by]);
         }
+
         player.drafted_by = team;
         
-        if (player.draft_position === undefined) {
-            player.draft_position = draftIndex;
-            player.draft_position_formatted = this.getFormattedDraft(draftIndex, teams);
-            player.drafted_by_formatted = teams[team].name;
-            draftedPlayers.push(player);
+        if (player.draft_position == null) {
+            player.draft_position = draftIndex++;
         }
+
+        player.draft_position_formatted = this.getFormattedDraft(player.draft_position, teams);
+        player.drafted_by_formatted = teams[team].name;
 
         teams[team].players.push(player);
         this.setState({
             teams: teams,
-            playerDraftIndex: draftIndex
+            draftIndex: draftIndex
         });
     }
 
     getFormattedDraft(draftIndex, teams) {
-        console.log(draftIndex);
-        console.log(teams.length);
         let pick = draftIndex % teams.length || teams.length;
         let round = parseInt(draftIndex / teams.length);
         if (pick !== teams.length) {
@@ -134,6 +131,12 @@ class MainPage extends React.Component {
 
     renameTeam(teamIndex, teamName) {
         const teams = this.state.teams;
+        const players = this.state.playerData;
+        players.forEach(player => {
+            if (player.drafted_by_formatted === teams[teamIndex].name) {
+                player.drafted_by_formatted = teamName
+            }
+        });
         teams[teamIndex].name = teamName;
         this.setState({
             teams: teams
@@ -176,7 +179,13 @@ class MainPage extends React.Component {
                             isDrawerOpen={this.state.isDrawerOpen}
                             isMenuOpen={this.state.isMenuOpen}
                             toggleDrawerOpen={this.toggleDrawerOpen}
-                            draftedPlayers={this.state.draftedPlayers}
+                            draftedPlayers={this.state.playerData.filter(player => player.drafted_by != null).sort((v1, v2) => {
+                                if (parseInt(v1.draft_position_formatted) !== parseInt(v2.draft_position_formatted)) {
+                                    return parseInt(v1.draft_position_formatted) - parseInt(v2.draft_position_formatted)
+                                }  else {
+                                    return parseInt(v1.draft_position_formatted.split('.')[1] - v2.draft_position_formatted.split('.')[1]);
+                                }
+                            })}
                         />
                     </div>
                 </div>
