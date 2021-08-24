@@ -70,10 +70,7 @@ class MainPage extends React.Component {
         if (scoringData == null) {
             scoringData = (await axios.get(playerURI+`/adp/${scoring}`)).data;
         }
-        
-        console.log(scoringData);
-        console.log(playerData);
-    
+            
         scoringData.forEach(player => {
             const existingPlayer = playerData.find(player2 => player2.name === player.name);
             if (!existingPlayer) {
