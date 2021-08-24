@@ -24,6 +24,7 @@ class PlayersAvailable extends React.Component {
         {field: 'adp', headerName:"ADP", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'high', headerName:"High", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'low', headerName:"Low", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
+        {field: 'stdev', headerName:"Standard Deviation", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'bye', headerName:"Bye", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
     ]
     constructor(props) {
