@@ -84,7 +84,7 @@ class TeamTabs extends React.Component {
                             <Button 
                                 variant="contained" 
                                 onClick={(button) => this.openRenameTeam(button)}
-                                style={{marginRight: '16px'}}
+                                style={{marginRight: '16px', marginBottom: '16px'}}
                             >
                                 Rename Team
                             </Button>
