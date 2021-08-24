@@ -3,6 +3,7 @@ import Header from './Header';
 import clsx from 'clsx';
 import PlayersAvailable from './PlayersAvailable';
 import TeamDisplay from './TeamDisplay';
+import Footer from './Footer';
 import axios from 'axios';
 import './MainPage.css';
 import DraftOrderDrawer from './DraftOrderDrawer';
@@ -187,6 +188,7 @@ class MainPage extends React.Component {
                             onMenuOpen={this.onMenuOpen}
                         />
                         <TeamDisplay teams={this.state.teams} setTeamCount={this.setTeamCount} renameTeam={this.renameTeam} onMenuOpen={this.onMenuOpen} draftPlayer={this.draftPlayer}/>
+                        <Footer />
                     </div>
                     
                     <div>
@@ -204,6 +206,7 @@ class MainPage extends React.Component {
                             })}
                         />
                     </div>
+
                 </div>
         )
     }
