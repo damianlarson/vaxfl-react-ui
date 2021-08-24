@@ -26,6 +26,13 @@ class PlayersAvailable extends React.Component {
         {field: 'low', headerName:"Low", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'stdev', headerName:"Standard Deviation", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
         {field: 'bye', headerName:"Bye", type: 'number', flex: 0.75, headerAlign: 'left', align: 'left',},
+        {field: 'vaccination_status', headerName: "Vaccination Status", flex: 1, headerAlign: 'left', align: 'left',
+            renderCell: (params) => (
+                <div>
+                    <a style={{color: 'white'}} href={params.getValue(params.id, 'vaccination_reference')}>{params.getValue(params.id, 'vaccination_status')}</a>
+                </div>
+            )
+        },
     ]
     constructor(props) {
         super(props);
